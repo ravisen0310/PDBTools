@@ -115,25 +115,7 @@ def write_fasta(PDBid):
     def read_pdb(PDBid):
         with open(f'{PDBid}_project.pdb', 'r') as file:
             return file.readlines()  # Read the file line by line and returns each line as a list of strings
-    
-    #loop to continously ask for a valid chain ID
-    while True:
-        #user input for  a chain ID
-        chain_ID = input("Enter a chain ID:")
-
-        #statement to check the correct type of chain ID e.g should be a letter and uppercase 
-        if chain_ID.isalpha() and chain_ID.isupper():
-            #break out of the loop for correct chain ID
-            break 
-        #if no chain ID is given, it breaks the loop and proceed to the parsing of file 
-        elif chain_ID =="":
-            break 
-   
-        #if the chain ID is not the correct type it prints message and prompts the user for chain ID again 
-        else:
-            print("Chain ID should be a letter and uppercase e.g A, B, C...")
-            continue 
-
+  
     #if no chain is given e.g user input has no arguments 
     if chain_ID == "": 
         print("No chain ID is provided, the existing chains will be retrieved")
