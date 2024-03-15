@@ -115,48 +115,28 @@ def write_fasta(PDBid):
     def read_pdb(PDBid):
         with open(f'{PDBid}_project.pdb', 'r') as file:
             return file.readlines()  # Read the file line by line and returns each line as a list of strings
-
-    #user input for  a chain ID
-    chain_ID = input("Enter a chain ID:")
     
-    #statement to check the chain ID
-    if chain_ID in ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']:
-        #get the lines starting with ATOM
-        #call the read_pdb function 
-        
-        lines = read_pdb(PDBid)
-        sequence = ''
-        for line in lines:
-                
-            if line[:4] == 'ATOM' and 'CA' in line and line[21] == chain_ID:
-                #get the lines with the chain 
-                #get the residues 
-                residue = line[17:20] 
-                #Use a dictionary of the standard single residue code for each amino acid 
-                res_code = {
-                    'ALA': 'A', 'ARG': 'R', 'ASN': 'N', 'ASP': 'D', 'CYS': 'C',
-                    'GLN': 'Q', 'GLU': 'E', 'GLY': 'G', 'HIS': 'H', 'ILE': 'I',
-                    'LEU': 'L', 'LYS': 'K', 'MET': 'M', 'PHE': 'F', 'PRO': 'P',
-                    'SER': 'S', 'THR': 'T', 'TRP': 'W', 'TYR': 'Y', 'VAL': 'V' }
-                
-                print(res_code.get(residue, 0), end="")
-                sequence += res_code.get(residue, 0)
-                  
-            
-            elif line.startswith("HEADER"):
-                header = line[10:].strip()
-                
-                output_filename = input("Enter the output filename for that chain e.g 1HIV_sequence:")
-                print(f"Retrieving the sequence for chain ID: {chain_ID}")
-        
-        # saving the sequence retrieved for that chain in a fasta formatted file, given a chain ID and output filename 
-        #write a fasta file using the PDB header, and chain IDs as definition line 
-        with open(f'{output_filename}.fasta', 'w') as f_file:
-            f_file.write(f'>{header}   chain_ID:{chain_ID}\n {sequence}')
-        #write the single letter protein residues
-     
-    #if no chain is given 
-    elif chain_ID == "": 
+    #loop to continously ask for a valid chain ID
+    while True:
+        #user input for  a chain ID
+        chain_ID = input("Enter a chain ID:")
+
+        #statement to check the correct type of chain ID e.g should be a letter and uppercase 
+        if chain_ID.isalpha() and chain_ID.isupper():
+            #break out of the loop for correct chain ID
+            break 
+        #if no chain ID is given, it breaks the loop and proceed to the parsing of file 
+        elif chain_ID =="":
+            break 
+   
+        #if the chain ID is not the correct type it prints message and prompts the user for chain ID again 
+        else:
+            print("Chain ID should be a letter and uppercase e.g A, B, C...")
+            continue 
+
+    #if no chain is given e.g user input has no arguments 
+    if chain_ID == "": 
+        print("No chain ID is provided, the existing chains will be retrieved")
         #save each chain as an entry in a single fasta file
         #extract all the chain IDs from the PDB file 
         lines = read_pdb(PDBid)
@@ -172,29 +152,66 @@ def write_fasta(PDBid):
                 #get the residues 
                 residue = line[17:20]
                 res_code = {
-                'ALA': 'A', 'ARG': 'R', 'ASN': 'N', 'ASP': 'D', 'CYS': 'C',
-                'GLN': 'Q', 'GLU': 'E', 'GLY': 'G', 'HIS': 'H', 'ILE': 'I',
-                'LEU': 'L', 'LYS': 'K', 'MET': 'M', 'PHE': 'F', 'PRO': 'P',
-                'SER': 'S', 'THR': 'T', 'TRP': 'W', 'TYR': 'Y', 'VAL': 'V'}
+                            'ALA': 'A', 'ARG': 'R', 'ASN': 'N', 'ASP': 'D', 'CYS': 'C',
+                            'GLN': 'Q', 'GLU': 'E', 'GLY': 'G', 'HIS': 'H', 'ILE': 'I',
+                            'LEU': 'L', 'LYS': 'K', 'MET': 'M', 'PHE': 'F', 'PRO': 'P',
+                            'SER': 'S', 'THR': 'T', 'TRP': 'W', 'TYR': 'Y', 'VAL': 'V'}
             
                 chain_sequences[chain_ID] += res_code.get(residue, 0)  #adding the the values to each chain ID
             elif line.startswith("HEADER"):
                 header = line[10:].strip()
 
-        #write to output file each chain as an entry
+                #write to output file each chain as an entry
         with open(f'{PDBid}chainID.fasta', 'w') as cfile:
             cfile.write(f'>{header}\n')
         #loop through the created dictionary and get the sequence(value) for each chain(key)
-        for chain_ID, sequence in chain_sequences.items():
+            for chain_ID, sequence in chain_sequences.items():
             #write to output file each chain as an entry
-            with open(f'{PDBid}chainID.fasta', 'a') as cfile:
-                cfile.write(f'Chain{chain_ID}: {sequence}\n')
-    
-            print(f"Chain {chain_ID}: {sequence}")
-
+                with open(f'{PDBid}chainID.fasta', 'a') as cfile:
+                    cfile.write(f'Chain{chain_ID}:{sequence}\n')
+                    print(f"Chain {chain_ID}: {sequence}")
+        
+    #call the read_pdb function to get the sequences for the chain ID requested 
     else:
-        print("Invalid chain ID. Try again using a valid chain ID")
-
+            
+        lines = read_pdb(PDBid)
+        sequence = ''
+        chain_found = False 
+        for line in lines:
+        
+        #get the lines starting with ATOM and only CA atoms with corresponds to the chain ID 
+        #get the lines for that chain 
+                 
+            if line[:4] == 'ATOM' and 'CA' in line:
+                #get the residues 
+                residue = line[17:20] 
+                chain = line[21] 
+                #Use a dictionary of the standard single residue code for each amino acid 
+                res_code = {
+                        'ALA': 'A', 'ARG': 'R', 'ASN': 'N', 'ASP': 'D', 'CYS': 'C',
+                        'GLN': 'Q', 'GLU': 'E', 'GLY': 'G', 'HIS': 'H', 'ILE': 'I',
+                        'LEU': 'L', 'LYS': 'K', 'MET': 'M', 'PHE': 'F', 'PRO': 'P',
+                        'SER': 'S', 'THR': 'T', 'TRP': 'W', 'TYR': 'Y', 'VAL': 'V' }
+                if chain == chain_ID:
+                    chain_found = True 
+                #for each residue get their corresponding single letter protein letter
+                    print(res_code.get(residue, 0), end="")
+            #store the letters in sequence (empty string)
+                    sequence += res_code.get(residue, 0)
+                
+            elif line.startswith("HEADER"):
+                header = line[10:].strip()
+                output_filename = input("Enter the output filename for that chain e.g 1HIV_sequence:")
+                print(f"Retrieving the sequence for chain ID...:{chain_ID}")
+                
+            # saving the sequence retrieved for that chain in a fasta formatted file, given a chain ID and output filename 
+            #write a fasta file using the PDB header, and chain IDs as definition line 
+            with open(f'{output_filename}.fasta', 'w') as f_file:
+                f_file.write(f'>{header}   chain_ID:{chain_ID}\n{sequence}')
+        #if parsing all lines in the files and does not find the chain ID
+        if not chain_found:
+    #print message invalid chain ID or chain ID does not exist in the file
+            print(f"Chain {chain_ID} does not exist in the file")
 
 #defining a function extract_lines to extract lines with ATOM or HETATM
 def extract_lines(PDBid):
