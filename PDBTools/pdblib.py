@@ -100,36 +100,44 @@ def get_journal(details):
     return details["Journal"]
 
 
-#defining a function to get the single letter protein residue 
-def protein_residue(PDBid):
+#defining a function to get the single letter protein residues 
+def protein_residue(PDBid,chain_ID): 
+ ''' this function opens, reads the PDB file given a PDB id and chain_ID as input'''
     def read_pdb(PDBid):
         with open(f'{PDBid}_project.pdb', 'r') as file:
             return file.readlines()  # Read the file line by line and returns each line as a list of strings
-    #user input for  a chain ID
-    chain_ID = input("Enter a chain ID:")
-    print("Retrieving single letter residues.....")
-    #statement to check the chain ID
-    if chain_ID in ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']:
-        #get the lines starting with ATOM
-        #call the read_pdb function 
-        lines = read_pdb(PDBid)
-        for line in lines:
-            if line[:4] == 'ATOM' and 'CA' in line and line[21] == chain_ID:
-                #get the lines with the chain 
-                #get the residues 
-                residue = line[17:20] 
+    
+    #statement to check if the chain ID exists or not setting flag to False before reading the lines  
+    chain_found = False 
+    #storing each line in variable lines used for parsing 
+    lines = read_pdb(PDBid)
+    #loop that iterates over each line 
+    for line in lines:
+        #if each line has string 'ATOM' as first four characters and string 'CA' is in the same line
+        if line[:4] == 'ATOM' and 'CA' in line:
+         #index slicing the chain IDs from each line with ATOM and CA and storing in variable chain_ind 
+            chain_ind = line[21]
+         
+                #get the 3-letter residues using slice indexing  
+            residue = line[17:20]
                 #Use a dictionary of the standard single residue code for each amino acid 
-                res_code = {
+            res_code = {
                     'ALA': 'A', 'ARG': 'R', 'ASN': 'N', 'ASP': 'D', 'CYS': 'C',
                     'GLN': 'Q', 'GLU': 'E', 'GLY': 'G', 'HIS': 'H', 'ILE': 'I',
                     'LEU': 'L', 'LYS': 'K', 'MET': 'M', 'PHE': 'F', 'PRO': 'P',
                     'SER': 'S', 'THR': 'T', 'TRP': 'W', 'TYR': 'Y', 'VAL': 'V'
                 }
-                
-                print(res_code.get(residue, 0), end ='')
-    else:
-        print("ENter a valid chain ID")
-
+            #check if the chain ID given by user is equal to the chain_ind in the file 
+            if chain_ind == chain_ID:
+             #raise flag to True if found 
+                chain_found = True
+             #get the single letter code (values) for each residue storing them in sequence 
+                sequence = res_code.get(residue, 0)
+                print(sequence, end ='')
+    #if the chain ID is not found 
+    if not chain_found:
+        #print a message to user 
+        print(f"Chain {chain_ID} does not exist in the file")
 
 
 #defining a function to write a FASTA formatted file and get the single letter protein residue 
