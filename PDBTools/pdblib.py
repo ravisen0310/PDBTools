@@ -140,8 +140,9 @@ def protein_residue(PDBid,chain_ID):
         print(f"Chain {chain_ID} does not exist in the file")
 
 
-#defining a function to write a FASTA formatted file and get the single letter protein residue 
+#defining a function named write_fasta 
 def write_fasta(PDBid,chain_ID):
+ ''' this function parse PDB file and write a FASTA formatted file with the single letter protein residues given a PDBid and chain ID as input ''' 
     def read_pdb(PDBid):
         with open(f'{PDBid}_project.pdb', 'r') as file:
             return file.readlines()  # Read the file line by line and returns each line as a list of strings
@@ -183,7 +184,7 @@ def write_fasta(PDBid,chain_ID):
                     cfile.write(f'Chain{chain_ID}:{sequence}\n')
                     print(f"Chain {chain_ID}: {sequence}")
         
-    #call the read_pdb function to get the sequences for the chain ID requested 
+    #otherwise, if user gives an input, call the read_pdb function to read the PDB file and get the sequences for the chain ID requested 
     else:
             
         lines = read_pdb(PDBid)
