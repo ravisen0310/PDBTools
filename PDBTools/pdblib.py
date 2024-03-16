@@ -226,26 +226,34 @@ def write_fasta(PDBid,chain_ID):
     #print message invalid chain ID or chain ID does not exist in the file
             print(f"Chain {chain_ID} does not exist in the file")
 
-#defining a function extract_lines to extract lines with ATOM or HETATM
+#defining a function named extract_lines to extract lines with ATOM or HETATM
 def extract_lines(PDBid,chain_ID):
+ ''' this function will extract lines with ATOM or HETATM and either write or read the relevant lines to an output file based on user input '''
     def read_pdb(PDBid):
         with open(f'{PDBid}_project.pdb', 'r') as file:
             return file.readlines()
     
      # Read the file line by line and returns each line as a list of strings
      #parse the PDB file and get all lines starting with ATOM or HETATM record type
-
+    chain_found = False 
     lines = read_pdb(PDBid) 
+   #creating empty lists to store the lines with ATOM and HETATM
     lines_atm = []
     lines_htm = []
+   #for loop iterates through each line and get lines with ATOM and finds the chain_IDs 
     for line in lines:
         if line[:4] == 'ATOM' and line[21] == chain_ID:
+         #if the chain ID given by user is found add the lines with ATOM to the empty list removing spaces
+            chain_found = True 
             lines_atm.append(line.strip())
+         #if the chain ID is found add lines with HETATM to the empty list 
         elif line[:6] =='HETATM' and line[21] == chain_ID:
+            chain_found = True 
             lines_htm.append(line.strip())
-        #return lines_atm, lines_htm
-
-
+    #if parsing all lines in the files and does not find the chain ID
+     if not chain_found:
+         print(f"Chain {chain_ID} does not exist in the file")
+  
     #check each user input and read or write the lines to the file
     #give the user the choice between writing and reading to a file
 
