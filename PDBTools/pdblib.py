@@ -252,7 +252,7 @@ def extract_lines(PDBid,chain_ID):
             lines_htm.append(line.strip())
     #if parsing all lines in the files and does not find the chain ID
      if not chain_found:
-         print(f"Chain {chain_ID} does not exist in the file")
+        print(f"Chain {chain_ID} does not exist in the file")
   
     #check each user input and read or write the lines to the file
     #give the user the choice between writing and reading to a file
@@ -280,22 +280,16 @@ def extract_lines(PDBid,chain_ID):
                     outfile.write(line + '\n')
 
 #defining a function to alter a chain ID
-#find the index of chain ID based on the user input, change all instances of that chain ID using .replace method
-
-def alter_chainID(PDBid):
+def alter_chainID(PDBid,chain_ID):
     ''' this function will find the index of chain ID based on the user input, change all instances of that chain ID using indexing'''
     new_chainIDS = []
     with open(f'{PDBid}_project.pdb', 'r') as file:
-
+        chain_found = False
         lines = file.readlines()  # Read the file line by line and returns each line as a list of strings
         #parse the PDB file and get all lines starting with ATOM or HETATM record type
+        #prompts user for a new chain ID 
+        new_ID = input("Enter the change you want to make e.g A to M:").upper()
 
-        chain_ID = input("Enter a chain ID you want to change:")
-        #statement to check the chain ID
-        if chain_ID in ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']:
-            new_ID = input("Enter the change you want to make e.g A to M:").upper()
-        else:
-            print("Invalid chain ID or chain does not exists")
         #creating an empty list to store the modified lines with the new IDs
         mod_lines = []
         for line in lines:
@@ -305,36 +299,42 @@ def alter_chainID(PDBid):
                 chainID = line[21]
                 #statement to check the chain ID
                 if chainID == chain_ID:
-
-                #replace all instances of line[21] with a random letter
+                    chain_found = True
+                 #replace all instances of line[21] with a random letter
                     new_IDs = new_ID
                     line = line[:21] + new_IDs + line[22:]
                     new_chainIDS.append(new_IDs)
             #appending lines to a new modidied file
             mod_lines.append(line)
-    # Write modified lines to a new file
+        print(f"Changing chain id from {chain_ID} to {new_ID} ")
+
+        if not chain_found:
+            print(f"Chain {chain_ID} does not exist in the file")
+# Write modified lines to a new file
     with open(f'{PDBid}_modified.pdb', 'w') as modified_file:
         modified_file.writelines(mod_lines)
 
     return new_chainIDS
 
-#non standard protein residues are HOH, inhibitors or cofactors which are in record type HETATM
 
+#defining a function named non_residues 
 def non_residues(PDBid):
     '''this function retrieves any non standard protein residue names from the PDB file '''
+    #non standard protein residues are HOH, inhibitors or cofactors which are in record type HETATM
     #to get one entry per residue use set to get only unique non std residues 
     non_std_res = set()
     with open(f'{PDBid}_project.pdb', 'r') as file:
 
         lines = file.readlines()  # Read the file line by line and returns each line as a list of strings
         
-#look for index residue [17:20] in each line and get those which are not in the list of standard residues 
+     #look for index residue [17:20] in each line and get those which are not in the list of standard residues 
         for line in lines:
             if (line[:4] == 'ATOM' or line[:6] == 'HETATM'):
                 residue = line[17:20].strip()
             #create a list of standard amino acids 
                 std_res = ['ALA', 'ARG', 'ASN', 'ASP', 'CYS', 'GLN', 'GLU', 'GLY', 'HIS', 'ILE', 'LEU', 'LYS', 'MET', 'PHE', 'PRO', 'SER', 'THR', 'TRP', 'TYR', 'VAL']
                 if residue not in std_res:
+                 #get those which are not in the list of standard residues 
                     non_std_res.add(residue)
     if non_std_res:
         print("Non standard protein residue names are:\n")
@@ -344,19 +344,21 @@ def non_residues(PDBid):
         print("No non-standard residues found.")
 
 import matplotlib.pyplot as plt 
-
-def plot_temperature(PDBid):
-    #to get one entry per residue use set to get only unique non std residues
+#defining a function named plot_temperature 
+def plot_temperature(PDBid,chain_ID,plot_dim):
+    ''' this function will plot the temperature factor of atoms given a PDB ID, chain ID and plot dimensions as input ''' 
     with open(f'{PDBid}_project.pdb', 'r') as file:
         lines = file.readlines()  # Read the file line by line and returns each line as a list of strings
 
-#look for index temperature for each line starting with ATOM
-        chain_id = input("ENter a chain ID:")
-        #plot_dim = input("Enter the plot dimensions e.g tuple (10,4):")
+        #creating empty lists to contain the atoms and temperature values 
         atoms = []
         temperatures = []
+        #set the chain_found to False before iterating through the lines 
+        chain_found = False
         for line in lines:
-            if line[:4] == 'ATOM' and line[21] == chain_id:
+            if line[:4] == 'ATOM' and line[21] == chain_ID:
+                chain_found = True
+             #get the index of temperature values in the file 
                 temp = float(line[60:66].strip())
                 #get only the backbone atoms of the protein
                 atom = line[5:11].strip()
@@ -364,19 +366,22 @@ def plot_temperature(PDBid):
                 temperatures.append(temp)
 
                 #print(residues, temp)
-        plot_dim = input("Enter the plot dimension e.g tuple 10,4:")
+        if not chain_found:
+            print(f"Chain {chain_ID} does not exist in the file")
+
         #plot the line graph of residues against temperature factor
-        fig, ax = plt.subplots(figsize=eval(plot_dim))
+        fig, ax = plt.subplots(figsize=(plot_dim))
+        #setting the plot x and y-axes labels 
         ax.plot(atoms,temperatures, 'red')
         ax.set_ylabel("Temperature factor")
         ax.set_xlabel("atoms")
-        ax.set_xticks(atoms[::11])
-        ax.set_xticklabels(atoms[::11], rotation='vertical')
-        ax.set_title("Temperature factors of the chain" + ' ' + chain_id)
-
+        #setting the scale with a step value of 100 atoms 
+        ax.set_xticks(atoms[::100])
+        ax.set_xticklabels(atoms[::100], rotation='vertical')
+        ax.set_title("Temperature factors of the chain" + ' ' + chain_ID)
         # Save the plot to a file
         plt.tight_layout()
         plt.show
-        fig.savefig(f"{PDBid}_temp_factor_plot.png", dpi=300)
-        #saving the figure to an output file
+        fig.savefig(f"{PDBid}_temp_factor_plot.png", dpi=300) #saving the figure to an output file
+
         
