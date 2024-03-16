@@ -1,80 +1,102 @@
-#This is a module named pdblib.py 
+#This is a Python script named pdblib.py which contains all the functions to read, parse and extract data from the PDB file  
 #!/usr/bin/env python
 
-# if pdb file is not present  locally
-#calling the function get_pdb
 
-#this pdb file check will be in the module script pdblib.py 
 #the pdblib.py module which contains 3 main functions that downloads, parse and get the query 
-
 
 import requests
  
-
 # if pdb file is not present  locally
 #calling the function get_pdb 
-#the pdblib.py module which contains 3 main functions that downloads, parse and get the query 
 
 #defining a function named get_pdb 
 def get_pdb(PDBid):
     ''' this function downloads a pdb ID from the RCSB site which takes as positional argument a PDB ID'''
-    #using the requests module constructing the URL to retrieve the PDB structure file 
+    #using the requests module constructing the URL to retrieve any PDB structure file from user input 
     file = requests.get("https://files.rcsb.org/download/"+ PDBid +".pdb")
+    #get the status of the file 
     file.raise_for_status()
+    #get the PDB file downloaded in the local machine 
     pdb_file = file.content 
     
-    #get the PDB file saved to local disk (physically in the disk of the machine) 
-    with open(f'{PDBid}_project.pdb','wb') as dfile:  #_project given to saved files not to overwrite existing PDB fuiles
+    #get the PDB file saved to local disk with option write and modify 
+    with open(f'{PDBid}_project.pdb','wb') as dfile:  
+     #_project given to saved files not to overwrite existing PDB files
         dfile.write(pdb_file)
+     #display a message to the user 
         print("PDB file downloaded successfully and saved to local disk")
         
 #defining a function that reads and parse the PDB file requested 
 
 def read_pdb(PDBid):
+ ''' this function reads the PDB file given a PDB ID and returns each line as a list of strings which is then parsed''' 
     with open(f'{PDBid}_project.pdb', 'r') as file:
-        PDB_file = file.readlines()  #gets the whole file as a list of strings   
+        PDB_file = file.readlines()  #reads the whole file as a list of strings   
         
     #creating an empty dictionary named details to store key:value pairs of details from the PDB file 
     details = {"Header": "", "Title": "","Source": "", "Keywords": "","Author": "", "Resolution": "","Journal": ""}
 
     #for loop to iterate over each line in the PDB file 
     for line in PDB_file:
+     
+     #use slice indexing to check if the first 6 characters is equal to "HEADER"
         if line[:6] == "HEADER":
+         #add the header as key and the header details removing any whitespaces
+         #and add header details as value to the dictionary
             details["Header"] += line[10:].strip()
+        
+        #if the first 5 chars equal to "TITLE"
         elif line[:5] == "TITLE":
+         #add the title as key and title details as value to the dictionary 
             details["Title"] += line[10:].strip() + ' '
+         
         elif line[:6] == "SOURCE": 
             details["Source"] += line[10:].strip()
                 
         elif line[:6] == "KEYWDS":
             details["Keywords"] += line[10:].strip()
+         
         elif line[:6] == "AUTHOR":
-            details["Author"] = line[10:].strip()
+            details["Author"] += line[10:].strip()
+        
+       #if the first 6 chars equal to "REMARK" and the string '2 RESOLUTION' is in the line
         elif line[:6] == "REMARK" and '2 RESOLUTION' in line:
+         #add the key Resolution and the details as from char index 22 as values to the dictionary 
             details["Resolution"] += line[22:].strip()
+         
         elif line[:4] == "JRNL" and 'TITL' in line:
             details["Journal"] += line[18:].strip() + ' '
-        
-    return details #return the dictionary 
+    #return the dictionary    
+    return details  
 
 #creating a function for each detail using the dictionary to access the key and values
 def get_header(details):
+ ''' get_header function, when called, will extract and return the values for key named Header'''
+  #return the values for Header 
     return details["Header"]
 
 def get_title(details):
+ ''' get_title function, when called, will return the values for key named Title'''
     return details["Title"]
 
 def get_source(details):
+ ''' get_source function, when called, will return the values for key named Source'''
     return details["Source"]
 
 def get_keyword(details):
+ ''' get_keyword function, when called, will return the values for key named Keyword'''
     return details["Keywords"]
+ 
 def get_author(details):
+ ''' get_author function, when called, will return the values for key named Author'''
     return details["Author"]
 
 def get_resolution(details):
+ ''' get_resolution function, when called, will return the values for key named Resolution'''
     return details["Resolution"]
+ 
 def get_journal(details):
+ ''' get_journal function, when called, will return the values for key named Journal'''
     return details["Journal"]
 
 
