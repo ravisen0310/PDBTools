@@ -156,10 +156,9 @@ while True:
                 if len(journal) > 80:
                     new_journal = ''
                     new_journal += '\n'.join([journal[i:i+80] for i in range(0, len(journal), 80)])
-                print("Journal title:", new_journal + '\n')
+                    print("Journal title:", new_journal + '\n')
                 else:
-                    print("Journal title:",journal + '\n')
-        
+                    print("Journal title:",journal + '\n')        
         
             elif usr_num == '8':
                 #while loop continously ask for a valid and existing chain ID
