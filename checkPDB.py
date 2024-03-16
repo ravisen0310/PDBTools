@@ -2,28 +2,31 @@
 
 #!/usr/bin/env python 
 
-import os  #this module check is the PDB file exists in the operation system using file path
-import re  #module for regular expressions 
-import requests 
-import matplotlib.pyplot as plt 
+import os                        #module to check if the PDB file exists in the operation system using file path
+import re                        #module to check for regular expressions 
+import requests                  #module to retrieve URL 
+import matplotlib.pyplot as plt  #module to plot graphs/figures 
 
-#from package PDBTools import the module pdblib 
-from PDBTools import pdblib 
+from PDBTools import pdblib      #importing the module pdbib from the package PDBTools
 
-#usr_prompts 
-#while loop to continuously prompt for user input if the first is not good it keeps on continuing 
+#while loop to continuously prompt for user input if the previous statements return False  
 while True:
     #prompts for a user input 
-    user_input = input("Welcome to PDBTools!\nEnter your query or press Enter to display the functionalities:")
+    user_input = input("Welcome to PDBTools!\nPress Enter to display the Tool's functionalities:")
     
-#if no user input is given to the script, a helpful description of the tool's possibilities, it displays a menu of the program and to choose options  
+#if no user input is given to the script, a helpful description of the tool's possibilities, it displays a menu of the software and allow the user to select options  
     if not user_input:
+        #display messages to guide the user 
         print("To start with, you will enter a PDB ID of your choice.")
         print("Then you choose any options by typing the number that corresponds to each data you want in the PDB file")
     
-        #list each of the functionalities with a number to select that option 
+        #list each of the Tool's functionalities with a number to select that option 
         print("Press number 1 to get the HEADER.\nPress number 2 to get the TITLE.\nPress number 3 to get the SOURCE.")
-        print("Press number 4 to get the KEYWORDS.\nPress number 5 to get the AUTHOR.\nPress number 6 to get the RESOLUTION.\nPress number 7 to get the JOURNAL TITLE\nPress number 8 to display the single-letter protein residues\nPress number 9 to write the sequence to a FASTA file\nPress number 10 to get lines starting with TAOM or HETATM, read or write the lines to a file\nPress number 11 to alter a chain ID from the PDB structure\nPress number 12 to find any non-standard protein residues\nPress number 13 to plot the temperature factor")
+        print("Press number 4 to get the KEYWORDS.\nPress number 5 to get the AUTHOR.\nPress number 6 to get the RESOLUTION."
+        print("Press number 7 to get the JOURNAL TITLE\nPress number 8 to display the single-letter protein residues\nPress number 9 to write the sequence to a FASTA file.")
+        print("Press number 10 to get lines starting with ATOM or HETATM, read or write the lines to a file\nPress number 11 to alter a chain ID from the PDB structure.")
+        print("Press number 12 to find any non-standard protein residues\nPress number 13 to plot the temperature factor.")
+              
          
         #raise error if pdb id is not the correct type 
         while True:
