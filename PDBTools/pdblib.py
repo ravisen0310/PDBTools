@@ -111,7 +111,7 @@ def protein_residue(PDBid):
 
 
 #defining a function to write a FASTA formatted file and get the single letter protein residue 
-def write_fasta(PDBid):
+def write_fasta(PDBid,chain_ID):
     def read_pdb(PDBid):
         with open(f'{PDBid}_project.pdb', 'r') as file:
             return file.readlines()  # Read the file line by line and returns each line as a list of strings
@@ -196,13 +196,12 @@ def write_fasta(PDBid):
             print(f"Chain {chain_ID} does not exist in the file")
 
 #defining a function extract_lines to extract lines with ATOM or HETATM
-def extract_lines(PDBid):
+def extract_lines(PDBid,chain_ID):
     def read_pdb(PDBid):
         with open(f'{PDBid}_project.pdb', 'r') as file:
             return file.readlines()
     
-    chain_ID = input("Enter a chain ID:")
-    # Read the file line by line and returns each line as a list of strings
+     # Read the file line by line and returns each line as a list of strings
      #parse the PDB file and get all lines starting with ATOM or HETATM record type
 
     lines = read_pdb(PDBid) 
