@@ -61,6 +61,7 @@ go to your working directory e.g miniproject and run the git clone command follo
 you will now see a PDBTools repository and a PDBTools package as subdirectories to miniproject 
 
 ### How to run the executable script named 'checkPDB.py'
-#go to your directory where the script is found and run the following commands:
+go to your directory where the script is found and run the following commands:
+
 *chmod* +x checkPDB.py 
 *python* checkPDB.py 
