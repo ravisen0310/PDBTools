@@ -13,22 +13,37 @@ This repository named PDBTools contains a package named PDBTools which contains 
 
 
 ### How to create a conda environment 
-The following commands:
-*mkdir* , *conda create*, *conda env list*, *conda activate* were run in the terminal
+- Open your bash temrinal and run the following commands to create a new conda environment named "py311" with Python 3.11
 
+*mkdir* , *conda create*, *conda env list*, *conda activate* are to be used in the terminal
 
-#creating a 'miniproject' directory for the packages and modules of the project 
-mkdir miniproject  
+Note: Ensure that Conda is installed and the Conda command is available in the terminal 
 
-#creating a conda env named py311 
-conda create -n py311 python=3.11
+- creating a 'miniproject' directory for the packages and modules of the project 
+*mkdir* miniproject  
 
-#listing the availble environments 
-conda env list
+- creating a conda env named py311 
+  conda create* -n py311 python=3.11
 
-#output for the conda environments: 
-Should be (py311)  
+-listing the availble environments 
+*conda env list*
 
-#activating the py311 env 
-conda activate py311
+- activating the py311 env 
+*conda activate* py311
+ 
+- Install the "requests" module using sudo apt-install
+*sudo apt-install* requests
 
+- Install Matplotlib to plot graphs
+*sudo apt-install python3-matplotlib*
+
+### How to retrieve the repository from GitHub
+go to your working directory e.g miniproject and run the git clone command followed by the URL
+
+*git clone* https://github.com/username/PDBTools.git 
+you will now see a PDBTools repository and a PDBTools package as subdirectories to miniproject 
+
+### How to run the executable script named 'checkPDB.py'
+#go to your directory where the script is found and run the following commands:
+*chmod* +x checkPDB.py 
+*python* checkPDB.py 
