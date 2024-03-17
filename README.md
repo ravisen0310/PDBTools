@@ -63,5 +63,6 @@ you will now see a PDBTools repository and a PDBTools package as subdirectories 
 ### How to run the executable script named 'checkPDB.py'
 go to your directory where the script is found and run the following commands:
 
-*chmod* +x checkPDB.py 
+*chmod* +x checkPDB.py
+
 *python* checkPDB.py 
