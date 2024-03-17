@@ -288,7 +288,7 @@ def alter_chainID(PDBid,chain_ID):
         lines = file.readlines()  # Read the file line by line and returns each line as a list of strings
         #parse the PDB file and get all lines starting with ATOM or HETATM record type
         #prompts user for a new chain ID 
-        new_ID = input("Enter the change you want to make e.g A to M:").upper()
+        new_ID = input("Enter the new chain ID:").upper()
 
         #creating an empty list to store the modified lines with the new IDs
         mod_lines = []
@@ -307,6 +307,7 @@ def alter_chainID(PDBid,chain_ID):
             #appending lines to a new modidied file
             mod_lines.append(line)
         print(f"Changing chain id from {chain_ID} to {new_ID} ")
+        print(f"Writing to output file.....")
 
         if not chain_found:
             print(f"Chain {chain_ID} does not exist in the file")
