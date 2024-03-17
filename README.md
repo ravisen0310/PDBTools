@@ -1,19 +1,13 @@
-# PDBTools
+# PDBTools Software
 
-Include a markdown file named "README.md" that: (1 mark)
-  - explains what your software does, (1 mark)
-  - shows how to create the conda environment (remember the "requests" module), and (1 mark)
-  - how to retrieve it from GitHub (1 mark)
-  - how to run your script. (1 mark)
-  - Use markdown syntax (1 mark)
 
 ### What the software does 
 This repository named PDBTools contains a package named PDBTools which contains a module named pdblib.py which downloads, reads and query data from PDB files
 This software is search engine-based which prompts for a PDB ID, chain ID to retrieve protein-related data (e.g sequence, PDB file details such as journal title, keywords, authors....) 
 
-- Once the script is executed, a welcome page will be displayed "Welcome to PDB Tools".
+- Once the script is executed, a homepage will be displayed "Welcome to PDB Tools".
 - The software first prompts the user to press Enter key to display the functionalities of PDBTools
-- After pressing Enter, the user is prompted to input a PDB ID.
+- After pressing Enter, all the functionalities/menu numbered 1 to 13 will be displated and the user is prompted to input a PDB ID.
 - Once a valid PDB ID is entered, the corresponding PDB file gets downloaded from RCSB if not present locally with suffix {PDB ID}_project.pdb
 - After the download, the software reads the file and parse it to extract data selected by the user
 - 13 numbered selections are provided to the user, where each number gives a functionality of the Tool by extracting data from the PDB file
