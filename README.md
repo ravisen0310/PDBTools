@@ -2,7 +2,7 @@
 
 
 ### What the software does 
-This repository named PDBTools contains a package named PDBTools which contains a module named pdblib.py which downloads, reads and query data from PDB files
+The PDBTools repository contains a package named PDBTools that contains a module named pdblib.py which downloads, reads and query data from PDB files
 This software is search engine-based which prompts for a PDB ID, chain ID to retrieve protein-related data (e.g sequence, PDB file details such as journal title, keywords, authors....) 
 
 - Once the script is executed, a homepage will be displayed "Welcome to PDB Tools".
