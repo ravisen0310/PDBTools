@@ -15,9 +15,11 @@ This software is search engine-based which prompts for a PDB ID, chain ID to ret
 - the software reads the PDB file and extracting sequence: If the chain ID is valid, it extracts the sequence of amino acids for the specified chain.
 - It uses the ATOM records to identify amino acids.
 - User is prompted to input an output filename where sequences are written to a file
+- For any changes made to the PDB file e.g writing protein sequence as FASTA file, altering chain ID, extracting lines with ATOM and HETATM, user will need to use command less in the terminal to view the changes made
+- each change will result in a modified, sequence or .txt extension 
 - the user can press q or Q or quit when prompted to enter a selection such that pressed once will exit the current prompt and goes back to the Welcome page and user and input a new PDB ID for a new query
 - if pressed twice it will completely exit the software
-- this software prompts messages informing on any invalid PDB ID or chain ID to redirect the user. 
+- this software prompts messages informing on any invalid PDB ID or chain ID to redirect the user.
 
 
 ### How to create a conda environment 
