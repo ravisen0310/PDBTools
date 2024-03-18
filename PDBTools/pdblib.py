@@ -71,8 +71,8 @@ def read_pdb(PDBid):
 
 #creating a function for each detail using the dictionary to access the key and values
 def get_header(details):
- ''' get_header function, when called, will extract and return the values for key named Header'''
-  #return the values for Header 
+  ''' get_header function, when called, will extract and return the values for key named Header'''
+    #return the values for Header 
     return details["Header"]
 
 def get_title(details):
