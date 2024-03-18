@@ -223,7 +223,6 @@ def write_fasta(PDBid,chain_ID):
                 f_file.write(f'>{header}   chain_ID:{chain_ID}\n{sequence}')
         #if parsing all lines in the files and does not find the chain ID
         if not chain_found:
-    #print message invalid chain ID or chain ID does not exist in the file
             print(f"Chain {chain_ID} does not exist in the file")
 
 #defining a function named extract_lines to extract lines with ATOM or HETATM
@@ -251,7 +250,7 @@ def extract_lines(PDBid,chain_ID):
             chain_found = True 
             lines_htm.append(line.strip())
    #if parsing all lines in the files and does not find the chain ID
-        if not chain_found:
+     if not chain_found:
             print(f"Chain {chain_ID} does not exist in the file")
          
     #check each user input and read or write the lines to the file
