@@ -250,10 +250,10 @@ def extract_lines(PDBid,chain_ID):
         elif line[:6] =='HETATM' and line[21] == chain_ID:
             chain_found = True 
             lines_htm.append(line.strip())
-    #if parsing all lines in the files and does not find the chain ID
-     if not chain_found:
-        print(f"Chain {chain_ID} does not exist in the file")
-  
+   #if parsing all lines in the files and does not find the chain ID
+        if not chain_found:
+            print(f"Chain {chain_ID} does not exist in the file")
+         
     #check each user input and read or write the lines to the file
     #give the user the choice between writing and reading to a file
 
