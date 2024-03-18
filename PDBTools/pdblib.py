@@ -29,7 +29,7 @@ def get_pdb(PDBid):
 #defining a function that reads and parse the PDB file requested 
 
 def read_pdb(PDBid):
- '''is function reads the PDB file given a PDB ID and returns each line as a list of strings which is then parsed'''
+    '''is function reads the PDB file given a PDB ID and returns each line as a list of strings which is then parsed'''
     with open(f'{PDBid}_project.pdb', 'r') as file:
         PDB_file = file.readlines()  #gets the whole file as a list of strings   
         
