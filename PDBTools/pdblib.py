@@ -71,38 +71,38 @@ def read_pdb(PDBid):
 
 #creating a function for each detail using the dictionary to access the key and values
 def get_header(details):
-  ''' get_header function, when called, will extract and return the values for key named Header'''
+    ''' get_header function, when called, will extract and return the values for key named Header'''
     #return the values for Header 
     return details["Header"]
 
 def get_title(details):
- ''' get_title function, when called, will return the values for key named Title'''
+    ''' get_title function, when called, will return the values for key named Title'''
     return details["Title"]
 
 def get_source(details):
- ''' get_source function, when called, will return the values for key named Source'''
+    ''' get_source function, when called, will return the values for key named Source'''
     return details["Source"]
 
 def get_keyword(details):
- ''' get_keyword function, when called, will return the values for key named Keyword'''
+    ''' get_keyword function, when called, will return the values for key named Keyword'''
     return details["Keywords"]
  
 def get_author(details):
- ''' get_author function, when called, will return the values for key named Author'''
+    ''' get_author function, when called, will return the values for key named Author'''
     return details["Author"]
 
 def get_resolution(details):
- ''' get_resolution function, when called, will return the values for key named Resolution'''
+    ''' get_resolution function, when called, will return the values for key named Resolution'''
     return details["Resolution"]
  
 def get_journal(details):
- ''' get_journal function, when called, will return the values for key named Journal'''
+    ''' get_journal function, when called, will return the values for key named Journal'''
     return details["Journal"]
 
 
 #defining a function to get the single letter protein residues 
 def protein_residue(PDBid,chain_ID): 
- ''' this function opens, reads the PDB file given a PDB id and chain_ID as input'''
+    ''' this function opens, reads the PDB file given a PDB id and chain_ID as input'''
     def read_pdb(PDBid):
         with open(f'{PDBid}_project.pdb', 'r') as file:
             return file.readlines()  # Read the file line by line and returns each line as a list of strings
@@ -142,7 +142,7 @@ def protein_residue(PDBid,chain_ID):
 
 #defining a function named write_fasta 
 def write_fasta(PDBid,chain_ID):
- ''' this function parse PDB file and write a FASTA formatted file with the single letter protein residues given a PDBid and chain ID as input ''' 
+    ''' this function parse PDB file and write a FASTA formatted file with the single letter protein residues given a PDBid and chain ID as input ''' 
     def read_pdb(PDBid):
         with open(f'{PDBid}_project.pdb', 'r') as file:
             return file.readlines()  # Read the file line by line and returns each line as a list of strings
@@ -228,7 +228,7 @@ def write_fasta(PDBid,chain_ID):
 
 #defining a function named extract_lines to extract lines with ATOM or HETATM
 def extract_lines(PDBid,chain_ID):
- ''' this function will extract lines with ATOM or HETATM and either write or read the relevant lines to an output file based on user input '''
+    ''' this function will extract lines with ATOM or HETATM and either write or read the relevant lines to an output file based on user input '''
     def read_pdb(PDBid):
         with open(f'{PDBid}_project.pdb', 'r') as file:
             return file.readlines()
