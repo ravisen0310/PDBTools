@@ -29,9 +29,9 @@ def get_pdb(PDBid):
 #defining a function that reads and parse the PDB file requested 
 
 def read_pdb(PDBid):
- ''' this function reads the PDB file given a PDB ID and returns each line as a list of strings which is then parsed'''
+ '''is function reads the PDB file given a PDB ID and returns each line as a list of strings which is then parsed'''
     with open(f'{PDBid}_project.pdb', 'r') as file:
-        PDB_file = file.readlines()  #reads the whole file as a list of strings   
+        PDB_file = file.readlines()  #gets the whole file as a list of strings   
         
     #creating an empty dictionary named details to store key:value pairs of details from the PDB file 
     details = {"Header": "", "Title": "","Source": "", "Keywords": "","Author": "", "Resolution": "","Journal": ""}
